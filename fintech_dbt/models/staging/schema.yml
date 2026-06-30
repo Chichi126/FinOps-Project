@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: stg_ledger_entries
+    description: "Cleaned, typed, and structured ledger entries for fintech transactions."
+    columns:
+      - name: entry_id
+        description: "The primary key for each ledger entry."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: payment_id
+        description: "Foreign key linking back to the core payment transaction."
+        data_tests:
+          - not_null
+
+      - name: user_id
+        description: "The unique identifier of the user who initiated the transaction."
+        data_tests:
+          - not_null
+
+      - name: entry_type
+        description: "Indicates the direction of the funds (e.g., credit or debit)."
+        data_tests:
+          - accepted_values:
+              values: ['credit', 'debit']
+
+      - name: amount
+        description: "The monetary value of the transaction. Represented as a Float64."
+        data_tests:
+          - not_null
+
+      - name: currency
+        description: "Three-letter ISO currency code (e.g., USD, NGN, EUR)."
+        data_tests:
+          - not_null
+
+      - name: posted_at
+        description: "The exact timestamp when the ledger entry was finalized."
+        data_tests:
+          - not_null
+    
+  - name: stg_payments
+    description: "Staging model for core payment transactions tracking status and processors."
+    columns:
+      - name: payment_id
+        description: "The primary key for the payment record."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: "The ID of the user making the payment."
+        data_tests:
+          - not_null
+
+      - name: status
+        description: "The current state of the transaction."
+        data_tests:
+          - accepted_values:
+              values: ['success', 'failed', 'pending']
+
+      - name: processor
+        description: "The payment gateway handling the transaction (e.g., Stripe, Paystack)."
+        data_tests:
+          - not_null

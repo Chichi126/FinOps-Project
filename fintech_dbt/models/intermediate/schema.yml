@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: int_payment_reconciliation
+    description: "Intermediate model for reconciling payment transactions with ledger entries."
+    columns:
+      - name: payment_id
+        description: "The unique identifier for each payment transaction."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: "The unique identifier of the user who made the payment."
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: user_id
+
+      - name: amount
+        description: "The monetary value of the payment transaction."
+        data_tests:
+          - not_null
+
+      - name: currency
+        description: "Three-letter ISO currency code (e.g., USD, NGN, EUR)."
+        data_tests:
+          - not_null
+
+      - name: status
+        description: "The current state of the payment transaction."
+        data_tests:
+          - accepted_values:
+              values: ['pending', 'completed', 'failed', 'refunded']
+
+      - name: initiated_at
+        description: "The timestamp when the payment was initiated."
+        data_tests:
+          - not_null
+
+      - name: completed_at
+        description: "The timestamp when the payment was completed."
+        data_tests:
+          - nullable
+
+      - name: failure_mode
+        description: "The reason for a failed payment transaction."
+        data_tests:
+          - nullable

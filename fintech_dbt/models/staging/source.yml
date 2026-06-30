@@ -1,0 +1,13 @@
+version: 2
+
+
+sources:
+  - name: raw
+    database: fintech_analytics
+    schema: fintech_analytics
+    tables:
+      - name: payments
+        description: "Raw transactions data"
+      
+      - name: ledger_entries
+        description: "Raw accounts data"
