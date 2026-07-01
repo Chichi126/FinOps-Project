@@ -49,7 +49,8 @@ models:
       - name: updated_at
         description: "The timestamp when the payment record was last updated."
     
-  - name: fct_ledger
+  - name: fct_audit_matrics
+    description: "Fact table for audit metrics related to payment transactions."
     columns:
       - name: entry_id
         description: "The unique identifier for each ledger entry."
@@ -102,5 +103,38 @@ models:
 
       - name: partner_since_at
         description: "The timestamp when the merchant first partnered with the platform."
+        data_tests:
+          - not_null
+  - name: dim_calendar
+    description: "Dimension table for calendar dates."
+    columns:
+      - name: date_key
+        description: "The specific date."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: year
+        description: "The year of the date."
+        data_tests:
+          - not_null
+
+      - name: month
+        description: "The month of the date."
+        data_tests:
+          - not_null
+
+      - name: day
+        description: "The day of the month."
+        data_tests:
+          - not_null
+
+      - name: quarter
+        description: "The quarter of the year."
+        data_tests:
+          - not_null
+
+      - name: week_of_year
+        description: "The week number within the year."
         data_tests:
           - not_null
